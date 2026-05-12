@@ -1,10 +1,13 @@
 import os
+
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
 from graph.workflow import compliance_workflow
 from utils.report_storage import save_report
+from utils.storage import upload_pdf_to_supabase
+
 
 st.set_page_config(
     page_title="AI Compliance Intelligence Platform",
@@ -38,7 +41,14 @@ if uploaded_file:
 
         f.write(uploaded_file.read())
 
+    cloud_file_url = upload_pdf_to_supabase(
+        pdf_path,
+        uploaded_file.name
+    )
+
     st.success("PDF uploaded successfully.")
+
+    st.markdown(f"Cloud Storage Upload Complete")
 
     if st.button("Run Compliance Analysis"):
 
@@ -55,13 +65,13 @@ if uploaded_file:
             }
 
             result = compliance_workflow.invoke(initial_state)
-            save_report(
-    uploaded_file.name,
-    result["final_report"],
-    result["summary"]
-)
 
-            
+            save_report(
+                uploaded_file.name,
+                result["final_report"],
+                result["summary"]
+            )
+
             findings = result["findings"]
 
             summary = result["summary"]
