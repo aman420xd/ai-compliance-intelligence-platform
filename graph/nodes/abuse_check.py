@@ -1,49 +1,37 @@
 from graph.state import ComplianceState
-from utils.llm import llm
 
 
-def abuse_check_node(state: ComplianceState):
+ABUSIVE_WORDS = [
+    "damn",
+    "stupid",
+    "fraud",
+    "illegal",
+    "abuse",
+    "corrupt"
+]
 
-    findings = state.get("findings", [])
+
+def abuse_check_node(
+    state: ComplianceState
+):
+
+    findings = []
 
     for page in state["pages"]:
 
-        text = page["text"]
+        page_text = page["text"].lower()
 
-        prompt = f"""
-You are a compliance moderation system.
+        for word in ABUSIVE_WORDS:
 
-Analyze the following content.
+            if word in page_text:
 
-Check whether it contains:
-- abusive language
-- hate speech
-- threats
-- unlawful or illegal content
-- harassment
-- toxic language
+                findings.append({
+                    "type": "Abusive Content",
+                    "severity": "Medium",
+                    "page": page["page_number"],
+                    "details": f"Detected abusive keyword: {word}"
+                })
 
-Return ONLY:
-YES - if abusive/unlawful content exists
-NO - if clean
-
-Page Content:
-{text}
-"""
-
-        response = llm.invoke(prompt)
-
-        result = response.content.strip()
-
-        if "YES" in result.upper():
-
-            findings.append({
-                "page": page["page"],
-                "type": "ABUSIVE_CONTENT",
-                "severity": "HIGH",
-                "issue": "Abusive or unlawful content detected"
-            })
-
-    state["findings"] = findings
-
-    return state
+    return {
+        "findings": findings
+    }

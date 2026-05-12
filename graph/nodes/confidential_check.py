@@ -1,49 +1,37 @@
 from graph.state import ComplianceState
-from utils.llm import llm
 
 
-def confidential_check_node(state: ComplianceState):
+CONFIDENTIAL_KEYWORDS = [
+    "confidential",
+    "internal",
+    "secret",
+    "proprietary",
+    "private",
+    "restricted"
+]
 
-    findings = state.get("findings", [])
+
+def confidential_check_node(
+    state: ComplianceState
+):
+
+    findings = []
 
     for page in state["pages"]:
 
-        text = page["text"]
+        page_text = page["text"].lower()
 
-        prompt = f"""
-You are a compliance auditor.
+        for keyword in CONFIDENTIAL_KEYWORDS:
 
-Analyze the following page content.
+            if keyword in page_text:
 
-Detect whether it contains:
-- confidential company information
-- proprietary business logic
-- internal architecture details
-- trade secrets
-- intellectual property sensitive content
+                findings.append({
+                    "type": "Confidential Information",
+                    "severity": "High",
+                    "page": page["page_number"],
+                    "details": f"Detected keyword: {keyword}"
+                })
 
-Return ONLY:
-YES - if confidential content exists
-NO - if clean
-
-Page Content:
-{text}
-"""
-
-        response = llm.invoke(prompt)
-
-        result = response.content.strip()
-
-        if "YES" in result.upper():
-
-            findings.append({
-                "page": page["page"],
-                "type": "CONFIDENTIAL",
-                "severity": "HIGH",
-                "issue": "Confidential information detected"
-            })
-
-    state["findings"] = findings
-
-    return state
-    
+    return {
+        "findings": findings
+    }
