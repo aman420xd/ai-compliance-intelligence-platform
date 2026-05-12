@@ -10,3 +10,4 @@ pydantic
 plotly
 pandas
 supabase
+langchain-google-genai
