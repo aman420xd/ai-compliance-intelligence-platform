@@ -2,9 +2,14 @@ from graph.state import ComplianceState
 from utils.llm import llm
 
 
-def executive_summary_node(state: ComplianceState):
+def executive_summary_node(
+    state: ComplianceState
+):
 
-    findings = state.get("findings", [])
+    findings = state.get(
+        "findings",
+        []
+    )
 
     prompt = f"""
 You are an enterprise compliance auditor.
@@ -21,8 +26,19 @@ Findings:
 {findings}
 """
 
-    response = llm.invoke(prompt)
+    response = llm.invoke(
+        prompt
+    )
 
-    state["summary"]["executive_summary"] = response.content
+    summary = state.get(
+        "summary",
+        {}
+    )
 
-    return state
+    summary["executive_summary"] = (
+        response.content
+    )
+
+    return {
+        "summary": summary
+    }

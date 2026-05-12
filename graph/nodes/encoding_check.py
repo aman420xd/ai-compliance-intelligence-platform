@@ -1,9 +1,11 @@
 from graph.state import ComplianceState
 
 
-def encoding_check_node(state: ComplianceState):
+def encoding_check_node(
+    state: ComplianceState
+):
 
-    findings = state.get("findings", [])
+    findings = []
 
     for page in state["pages"]:
 
@@ -24,7 +26,6 @@ def encoding_check_node(state: ComplianceState):
 
             continue
 
-        # English-only validation
         if not text.isascii():
 
             findings.append({
@@ -34,6 +35,6 @@ def encoding_check_node(state: ComplianceState):
                 "issue": "Non-English or unsupported characters detected"
             })
 
-    state["findings"] = findings
-
-    return state
+    return {
+        "findings": findings
+    }

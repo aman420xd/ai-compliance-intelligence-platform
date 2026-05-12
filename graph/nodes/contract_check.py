@@ -8,12 +8,17 @@ REQUIRED_CLAUSES = [
 ]
 
 
-def contract_check_node(state: ComplianceState):
+def contract_check_node(
+    state: ComplianceState
+):
 
-    findings = state.get("findings", [])
+    findings = []
 
     full_document = " ".join(
-        [page["text"].lower() for page in state["pages"]]
+        [
+            page["text"].lower()
+            for page in state["pages"]
+        ]
     )
 
     for clause in REQUIRED_CLAUSES:
@@ -27,6 +32,6 @@ def contract_check_node(state: ComplianceState):
                 "issue": f"Missing required clause: {clause}"
             })
 
-    state["findings"] = findings
-
-    return state
+    return {
+        "findings": findings
+    }

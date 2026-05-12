@@ -1,4 +1,5 @@
-from typing import TypedDict, List, Dict
+from typing import TypedDict, List, Dict, Annotated
+import operator
 
 
 class ComplianceState(TypedDict):
@@ -7,7 +8,7 @@ class ComplianceState(TypedDict):
 
     pages: List[Dict]
 
-    findings: List[Dict]
+    findings: Annotated[List[Dict], operator.add]
 
     compliance_rules: Dict
 

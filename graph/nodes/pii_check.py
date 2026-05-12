@@ -13,7 +13,7 @@ from utils.regex_patterns import (
 
 def pii_check_node(state: ComplianceState):
 
-    findings = state.get("findings", [])
+    findings = []
 
     for page in state["pages"]:
 
@@ -41,6 +41,6 @@ def pii_check_node(state: ComplianceState):
                     "matches": matches
                 })
 
-    state["findings"] = findings
-
-    return state
+    return {
+        "findings": findings
+    }

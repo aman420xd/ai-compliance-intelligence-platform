@@ -9,7 +9,9 @@ SEVERITY_WEIGHTS = {
 }
 
 
-def risk_score_node(state: ComplianceState):
+def risk_score_node(
+    state: ComplianceState
+):
 
     findings = state.get("findings", [])
 
@@ -28,13 +30,21 @@ def risk_score_node(state: ComplianceState):
 
         severity = finding["severity"]
 
-        total_score += SEVERITY_WEIGHTS.get(severity, 0)
+        total_score += SEVERITY_WEIGHTS.get(
+            severity,
+            0
+        )
 
         severity_counts[severity] += 1
 
-        affected_pages.add(str(finding["page"]))
+        affected_pages.add(
+            str(finding["page"])
+        )
 
-    final_risk_score = min(total_score, 100)
+    final_risk_score = min(
+        total_score,
+        100
+    )
 
     summary = {
         "total_findings": len(findings),
@@ -43,8 +53,7 @@ def risk_score_node(state: ComplianceState):
         "risk_score": final_risk_score
     }
 
-    state["risk_score"] = final_risk_score
-
-    state["summary"] = summary
-
-    return state
+    return {
+        "risk_score": final_risk_score,
+        "summary": summary
+    }
