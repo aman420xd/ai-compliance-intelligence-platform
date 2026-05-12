@@ -28,7 +28,7 @@ def risk_score_node(
 
     for finding in findings:
 
-        severity = finding["severity"]
+        severity = finding["severity"].upper()
 
         total_score += SEVERITY_WEIGHTS.get(
             severity,

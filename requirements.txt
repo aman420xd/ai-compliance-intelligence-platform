@@ -1,13 +1,12 @@
+langchain-groq
+supabase
+plotly
 streamlit
 langgraph
 langchain
-langchain-community
 langchain-core
-langchain-anthropic
+langchain-community
 pymupdf
 python-dotenv
 pydantic
-plotly
 pandas
-supabase
-langchain-google-genai

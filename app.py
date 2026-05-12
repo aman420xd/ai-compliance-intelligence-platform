@@ -41,10 +41,10 @@ if uploaded_file:
 
         f.write(uploaded_file.read())
 
-    #cloud_file_url = upload_pdf_to_supabase(
-    # pdf_path,
-    #   uploaded_file.name
-    #)
+    cloud_file_url = upload_pdf_to_supabase(
+     pdf_path,
+      uploaded_file.name
+    )
 
     st.success("PDF uploaded successfully.")
 
