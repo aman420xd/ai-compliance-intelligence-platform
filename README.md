@@ -107,6 +107,34 @@ uploads/
 
 ---
 
+
+---
+
+## Live Demo
+
+https://ai-compliance-intelligence-platform.onrender.com
+
+---
+
+## Deployment
+
+The application is deployed on Render using:
+
+- Streamlit frontend
+- LangGraph orchestration
+- Claude AI integration
+- PyMuPDF for PDF processing
+- Plotly analytics dashboard
+
+---
+
+## Notes
+
+- Uploaded PDFs are processed securely during runtime
+- Reports are generated dynamically
+- Environment variables are managed securely on Render
+
+
 ## Author
 
 Priyanshu Tomar
