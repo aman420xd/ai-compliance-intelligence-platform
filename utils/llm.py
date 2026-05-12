@@ -1,14 +1,14 @@
 import os
 
 from dotenv import load_dotenv
-from langchain_anthropic import ChatAnthropic
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 load_dotenv()
 
 
-llm = ChatAnthropic(
-    model="claude-3-5-sonnet-20241022",
-    anthropic_api_key=os.getenv("ANTHROPIC_API_KEY"),
+llm = ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash",
+    google_api_key=os.getenv("GOOGLE_API_KEY"),
     temperature=0
 )
