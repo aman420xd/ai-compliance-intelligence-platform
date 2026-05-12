@@ -1,5 +1,3 @@
-import os
-
 from utils.supabase_client import supabase
 
 
