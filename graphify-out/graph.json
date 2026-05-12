@@ -1,0 +1,133 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "app.py",
+      "file_type": "code",
+      "source_file": "app.py",
+      "source_location": "L1",
+      "id": "app_py",
+      "community": 2,
+      "norm_label": "app.py"
+    },
+    {
+      "label": "pdf_processor.py",
+      "file_type": "code",
+      "source_file": "pdf_processor.py",
+      "source_location": "L1",
+      "id": "pdf_processor_py",
+      "community": 1,
+      "norm_label": "pdf_processor.py"
+    },
+    {
+      "label": "extract_text_from_pdf()",
+      "file_type": "code",
+      "source_file": "pdf_processor.py",
+      "source_location": "L3",
+      "id": "capstone_2_pdf_processor_extract_text_from_pdf",
+      "community": 1,
+      "norm_label": "extract_text_from_pdf()"
+    },
+    {
+      "label": "Extracts raw text from a PDF file.",
+      "file_type": "rationale",
+      "source_file": "pdf_processor.py",
+      "source_location": "L4",
+      "id": "capstone_2_pdf_processor_rationale_4",
+      "community": 1,
+      "norm_label": "extracts raw text from a pdf file."
+    },
+    {
+      "label": "workflow.py",
+      "file_type": "code",
+      "source_file": "workflow.py",
+      "source_location": "L1",
+      "id": "workflow_py",
+      "community": 0,
+      "norm_label": "workflow.py"
+    },
+    {
+      "label": "PipelineState",
+      "file_type": "code",
+      "source_file": "workflow.py",
+      "source_location": "L7",
+      "id": "capstone_2_workflow_pipelinestate",
+      "community": 0,
+      "norm_label": "pipelinestate"
+    },
+    {
+      "label": "TypedDict",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "typeddict",
+      "community": 0,
+      "norm_label": "typeddict"
+    },
+    {
+      "label": "check_compliance()",
+      "file_type": "code",
+      "source_file": "workflow.py",
+      "source_location": "L19",
+      "id": "capstone_2_workflow_check_compliance",
+      "community": 0,
+      "norm_label": "check_compliance()"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "pdf_processor.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "pdf_processor_py",
+      "target": "capstone_2_pdf_processor_extract_text_from_pdf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "pdf_processor.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "capstone_2_pdf_processor_rationale_4",
+      "target": "capstone_2_pdf_processor_extract_text_from_pdf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "workflow.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "workflow_py",
+      "target": "capstone_2_workflow_pipelinestate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "workflow.py",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "workflow_py",
+      "target": "capstone_2_workflow_check_compliance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "workflow.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "capstone_2_workflow_pipelinestate",
+      "target": "typeddict",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "5570d90a75090039e35cb6e5fbccd840bd31031b"
+}

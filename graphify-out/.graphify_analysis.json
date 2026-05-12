@@ -1,0 +1,45 @@
+{
+  "communities": {
+    "0": [
+      "capstone_2_workflow_check_compliance",
+      "capstone_2_workflow_pipelinestate",
+      "typeddict",
+      "workflow_py"
+    ],
+    "1": [
+      "capstone_2_pdf_processor_extract_text_from_pdf",
+      "capstone_2_pdf_processor_rationale_4",
+      "pdf_processor_py"
+    ],
+    "2": [
+      "app_py"
+    ]
+  },
+  "cohesion": {
+    "0": 0.5,
+    "1": 0.67,
+    "2": 1.0
+  },
+  "gods": [
+    {
+      "id": "capstone_2_pdf_processor_extract_text_from_pdf",
+      "label": "extract_text_from_pdf()",
+      "degree": 2
+    },
+    {
+      "id": "capstone_2_workflow_pipelinestate",
+      "label": "PipelineState",
+      "degree": 2
+    },
+    {
+      "id": "capstone_2_pdf_processor_rationale_4",
+      "label": "Extracts raw text from a PDF file.",
+      "degree": 1
+    }
+  ],
+  "surprises": [],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

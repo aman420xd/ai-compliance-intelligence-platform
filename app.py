@@ -1,51 +1,135 @@
+import os
+import pandas as pd
+import plotly.express as px
 import streamlit as st
-from pdf_processor import extract_text_from_pdf
-from workflow import compliance_pipeline
 
-st.set_page_config(page_title="Compliance Checker Pipeline", layout="wide")
+from graph.workflow import compliance_workflow
+from utils.report_storage import save_report
 
-st.title("🚀 AI-Accelerated Compliance Pipeline")
+st.set_page_config(
+    page_title="AI Compliance Intelligence Platform",
+    layout="wide"
+)
 
-# Sidebar for Compliance Rules (Fulfills: provision for updating rules via UI)
-st.sidebar.header("⚙️ Compliance Configuration")
-default_rules = """1. Document must contain a 'Confidentiality' clause.
-2. The term 'Indemnity' must be clearly defined.
-3. Applicable governing law must be stated."""
 
-compliance_rules = st.sidebar.text_area("Edit Compliance Rules:", value=default_rules, height=200)
+st.title("🛡 AI Compliance Intelligence Platform")
 
-# Main UI for PDF Upload
-st.subheader("1. Upload Document")
-uploaded_file = st.file_uploader("Upload a PDF to check for compliance", type=["pdf"])
+st.markdown(
+    "Upload PDF documents for AI-powered compliance analysis."
+)
 
-if uploaded_file is not None:
-    st.success("PDF Uploaded Successfully!")
-    
-    if st.button("Run Compliance Check"):
-        with st.spinner("Processing PDF and running LangGraph pipeline..."):
-            
-            # Extract Text
-            pdf_bytes = uploaded_file.read()
-            raw_text = extract_text_from_pdf(pdf_bytes)
-            
-            # Run LangGraph Pipeline
+
+uploaded_file = st.file_uploader(
+    "Upload PDF",
+    type=["pdf"]
+)
+
+
+if uploaded_file:
+
+    os.makedirs("uploads", exist_ok=True)
+
+    pdf_path = os.path.join(
+        "uploads",
+        uploaded_file.name
+    )
+
+    with open(pdf_path, "wb") as f:
+
+        f.write(uploaded_file.read())
+
+    st.success("PDF uploaded successfully.")
+
+    if st.button("Run Compliance Analysis"):
+
+        with st.spinner("Running AI compliance workflow..."):
+
             initial_state = {
-                "document_text": raw_text,
-                "compliance_rules": compliance_rules,
-                "analysis_report": ""
+                "pdf_path": pdf_path,
+                "pages": [],
+                "findings": [],
+                "compliance_rules": {},
+                "risk_score": 0,
+                "summary": {},
+                "final_report": ""
             }
+
+            result = compliance_workflow.invoke(initial_state)
+            save_report(
+    uploaded_file.name,
+    result["final_report"],
+    result["summary"]
+)
+
             
-            # Execute workflow
-            result = compliance_pipeline.invoke(initial_state)
-            
-            # Display Report
-            st.subheader("📋 Compliance Report")
-            st.markdown(result["analysis_report"])
-            
-            # Download Button for the report
+            findings = result["findings"]
+
+            summary = result["summary"]
+
+            st.subheader("📊 Risk Overview")
+
+            col1, col2, col3 = st.columns(3)
+
+            col1.metric(
+                "Risk Score",
+                f"{summary.get('risk_score', 0)}/100"
+            )
+
+            col2.metric(
+                "Total Findings",
+                summary.get("total_findings", 0)
+            )
+
+            col3.metric(
+                "Affected Pages",
+                summary.get("affected_pages", 0)
+            )
+
+            st.subheader("📈 Severity Breakdown")
+
+            severity_data = summary.get(
+                "severity_breakdown",
+                {}
+            )
+
+            severity_df = pd.DataFrame({
+                "Severity": list(severity_data.keys()),
+                "Count": list(severity_data.values())
+            })
+
+            fig = px.bar(
+                severity_df,
+                x="Severity",
+                y="Count",
+                title="Compliance Findings by Severity"
+            )
+
+            st.plotly_chart(fig)
+
+            st.subheader("📋 Findings Table")
+
+            if findings:
+
+                findings_df = pd.DataFrame(findings)
+
+                st.dataframe(findings_df)
+
+            st.subheader("🧠 AI Executive Summary")
+
+            st.markdown(
+                summary.get(
+                    "executive_summary",
+                    "No summary generated."
+                )
+            )
+
+            st.subheader("📄 Final Compliance Report")
+
+            st.markdown(result["final_report"])
+
             st.download_button(
-                label="Download Report as TXT",
-                data=result["analysis_report"],
+                label="Download Report",
+                data=result["final_report"],
                 file_name="compliance_report.txt",
                 mime="text/plain"
             )

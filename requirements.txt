@@ -1,0 +1,9 @@
+streamlit
+langgraph
+langchain
+langchain-community
+langchain-core
+langchain-anthropic
+pymupdf
+python-dotenv
+pydantic
