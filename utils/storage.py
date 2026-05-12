@@ -1,3 +1,5 @@
+import time
+
 from utils.supabase_client import supabase
 
 
@@ -9,10 +11,14 @@ def upload_pdf_to_supabase(
     storage_filename
 ):
 
+    unique_filename = (
+        f"{int(time.time())}_{storage_filename}"
+    )
+
     with open(local_file_path, "rb") as f:
 
         supabase.storage.from_(BUCKET_NAME).upload(
-            storage_filename,
+            unique_filename,
             f,
             {
                 "content-type": "application/pdf"
@@ -20,7 +26,7 @@ def upload_pdf_to_supabase(
         )
 
     file_url = supabase.storage.from_(BUCKET_NAME).get_public_url(
-        storage_filename
+        unique_filename
     )
 
     return file_url
