@@ -7,3 +7,5 @@ langchain-anthropic
 pymupdf
 python-dotenv
 pydantic
+plotly
+pandas
