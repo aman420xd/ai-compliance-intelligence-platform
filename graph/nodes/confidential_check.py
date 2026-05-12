@@ -17,7 +17,7 @@ def confidential_check_node(
 
     findings = []
 
-    for page in state["pages"]:
+    for index, page in enumerate(state["pages"]):
 
         page_text = page["text"].lower()
 
@@ -28,7 +28,7 @@ def confidential_check_node(
                 findings.append({
                     "type": "Confidential Information",
                     "severity": "High",
-                    "page": page["page_number"],
+                    "page": index + 1,
                     "details": f"Detected keyword: {keyword}"
                 })
 
