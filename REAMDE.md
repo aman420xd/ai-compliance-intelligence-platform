@@ -19,7 +19,7 @@ This platform allows users to upload PDF documents and automatically analyze the
 Add your deployed Render URL here:
 
 ```bash
-https://your-render-url.onrender.com
+https://ai-compliance-intelligence-platform.onrender.com/
 ```
 
 ---
