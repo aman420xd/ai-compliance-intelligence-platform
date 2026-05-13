@@ -3,10 +3,10 @@ import os
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-
+from utils.storage import upload_pdf_to_supabase
 from graph.workflow import compliance_workflow
 from utils.report_storage import save_report
- # from utils.storage import upload_pdf_to_supabase
+from utils.storage import upload_pdf_to_supabase
 
 
 st.set_page_config(
